@@ -39,20 +39,7 @@ public class EntreeJeu extends JFrame {
 	/**
 	 * Chargement de l'application
 	 */
-	public static void main(String[] args) {
-		EventQueue.invokeLater(new Runnable() {
-			public void run() {
-				try {
-					EntreeJeu frame = new EntreeJeu();
-					frame.setVisible(true);
-					frame.setTitle("Urban Marginal");
-					frame.setLocationRelativeTo(null); //Positionne la fenêtre au centre de l'écran
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
+	
 
 	/**
 	 * Création de la fenêtre
