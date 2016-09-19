@@ -23,6 +23,7 @@ public class EntreeJeu extends JFrame {
 	private JLabel lblConnectAnExisting;
 	private JLabel lblIpServer;
 	private JTextField textField;
+	private Controle controle;
 
 	/**
 	* Lancement du serveur en cliquant sur Start
@@ -55,8 +56,9 @@ public class EntreeJeu extends JFrame {
 
 	/**
 	 * Création de la fenêtre
+	 * @param controle 
 	 */
-	public EntreeJeu() {
+	public EntreeJeu(Controle controle) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 450, 300);
 		contentPane = new JPanel();
@@ -121,3 +123,4 @@ public class EntreeJeu extends JFrame {
 		textField.setColumns(10);
 	}
 }
+
