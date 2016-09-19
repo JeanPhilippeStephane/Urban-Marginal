@@ -14,6 +14,7 @@ public class Controle {
 	public void evenementVue(JFrame uneFrame ,Object info ){
 		if ( uneFrame instanceof EntreeJeu ){
 			evenementEntreeJeu(info);
+			System.out.println((String)info) ;
 		}
 	}
 	
@@ -24,7 +25,7 @@ public class Controle {
 
 	public static void main(String[] args) {
 		new Controle();
-		//yo 5;
+		
 
 	}
 

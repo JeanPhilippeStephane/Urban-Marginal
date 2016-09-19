@@ -22,14 +22,18 @@ public class EntreeJeu extends JFrame {
 	private JLabel lblSelectAServer;
 	private JLabel lblConnectAnExisting;
 	private JLabel lblIpServer;
-	private JTextField textField;
+	private JTextField txtIp;
 	private Controle controle;
 
 	/**
 	* Lancement du serveur en cliquant sur Start
 	*/
 	private void btnStart_clic() {
-		System.out.println("Using start button") ;
+		 controle.evenementVue( this,"serveur") ;
+	}
+	
+	private void btnConnect(){
+		controle.evenementVue(this,txtIp.getText());
 	}
 	
 	private void btnExit_clic() {
@@ -74,6 +78,12 @@ public class EntreeJeu extends JFrame {
 		contentPane.add(btnStart);
 		
 		JButton btnConnect = new JButton("Connect");
+		btnConnect.addMouseListener(new MouseAdapter() {
+			@Override
+			public void mouseClicked(MouseEvent arg0) {
+				btnConnect();
+			}
+		});
 		btnConnect.setBounds(279, 123, 89, 23);
 		contentPane.add(btnConnect);
 		
@@ -103,11 +113,12 @@ public class EntreeJeu extends JFrame {
 		lblIpServer.setBounds(101, 129, 86, 14);
 		contentPane.add(lblIpServer);
 		
-		textField = new JTextField();
-		textField.setText("127.0.0.1");
-		textField.setBounds(173, 126, 86, 20);
-		contentPane.add(textField);
-		textField.setColumns(10);
+		txtIp = new JTextField();
+		txtIp.setText("127.0.0.1");
+		txtIp.setBounds(173, 126, 86, 20);
+		contentPane.add(txtIp);
+		txtIp.setColumns(10);
+		this.controle=controle;
 	}
 }
 
