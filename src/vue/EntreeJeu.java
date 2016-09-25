@@ -26,28 +26,28 @@ public class EntreeJeu extends JFrame {
 	private Controle controle;
 
 	/**
-	* Lancement du serveur en cliquant sur Start
-	*/
+	 * Lancement du serveur en cliquant sur Start
+	 */
 	private void btnStart_clic() {
-		 controle.evenementVue( this,"serveur") ;
+		controle.evenementVue(this, "serveur");
 	}
-	
-	private void btnConnect(){
-		controle.evenementVue(this,txtIp.getText());
+
+	private void btnConnect() {
+		controle.evenementVue(this, txtIp.getText());
 	}
-	
+
 	private void btnExit_clic() {
 		System.exit(0);
 	}
-	
+
 	/**
 	 * Chargement de l'application
 	 */
-	
 
 	/**
 	 * Création de la fenêtre
-	 * @param controle 
+	 * 
+	 * @param controle
 	 */
 	public EntreeJeu(Controle controle) {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -71,12 +71,13 @@ public class EntreeJeu extends JFrame {
 		});
 		btnStart.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				
+
 			}
 		});
-		btnStart.setBounds(279, 75, 89, 23); //Bounds : Coordonnée d'un élément (x, y, width, height)
+		btnStart.setBounds(279, 75, 89, 23); // Bounds : Coordonnée d'un élément
+												// (x, y, width, height)
 		contentPane.add(btnStart);
-		
+
 		JButton btnConnect = new JButton("Connect");
 		btnConnect.addMouseListener(new MouseAdapter() {
 			@Override
@@ -86,7 +87,7 @@ public class EntreeJeu extends JFrame {
 		});
 		btnConnect.setBounds(279, 123, 89, 23);
 		contentPane.add(btnConnect);
-		
+
 		JButton btnExit = new JButton("Exit");
 		btnExit.addMouseListener(new MouseAdapter() {
 			@Override
@@ -99,26 +100,25 @@ public class EntreeJeu extends JFrame {
 		});
 		btnExit.setBounds(279, 158, 89, 23);
 		contentPane.add(btnExit);
-		
+
 		lblSelectAServer = new JLabel("Select a server :");
 		lblSelectAServer.setBounds(101, 79, 141, 14);
 		contentPane.add(lblSelectAServer);
-		
+
 		lblConnectAnExisting = new JLabel("Connect an existing server :");
 		lblConnectAnExisting.setBounds(101, 104, 194, 14);
 		contentPane.add(lblConnectAnExisting);
-		
+
 		lblIpServer = new JLabel("IP server :");
 		lblIpServer.setForeground(Color.BLACK);
 		lblIpServer.setBounds(101, 129, 86, 14);
 		contentPane.add(lblIpServer);
-		
+
 		txtIp = new JTextField();
 		txtIp.setText("127.0.0.1");
 		txtIp.setBounds(173, 126, 86, 20);
 		contentPane.add(txtIp);
 		txtIp.setColumns(10);
-		this.controle=controle;
+		this.controle = controle;
 	}
 }
-

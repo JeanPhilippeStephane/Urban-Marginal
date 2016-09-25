@@ -29,6 +29,15 @@ public class Connection extends Thread {
 		}
 	start();
 	}
+	public void envoi(Object unObjet){
+		try {
+			out.writeObject(unObjet);
+			out.flush();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			System.out.println("erreur sur l'objet out : "+e);
+		}
+	}
 	public void run(){
 		boolean inOk=true;
 		Object reception;
