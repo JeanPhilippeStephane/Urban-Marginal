@@ -28,7 +28,9 @@ public class Connection extends Thread {
 			System.exit(0);
 		}
 	start();
+	((controleur.Controle)this.leRecepteur).setConnection(this) ; 
 	}
+	
 	public void envoi(Object unObjet){
 		try {
 			out.writeObject(unObjet);
