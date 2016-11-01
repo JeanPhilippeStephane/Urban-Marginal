@@ -43,9 +43,11 @@ public class Connection extends Thread {
 	public void run(){
 		boolean inOk=true;
 		Object reception;
+		
 		while(inOk==true){
 			try {
 				reception=in.readObject();
+			((controleur.Controle)leRecepteur).receptionInfo(this,reception);
 			} catch (ClassNotFoundException e) {
 				// TODO Auto-generated catch block
 				System.out.println("erreur type classe non trouvé : "+e);

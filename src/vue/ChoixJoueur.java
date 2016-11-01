@@ -45,7 +45,7 @@ public class ChoixJoueur  extends JFrame implements Global  {
 			JOptionPane.showMessageDialog(null,"le pseudo est obligatoire");
 		}
 		else{
-			controle.evenementVue(this, "");
+			controle.evenementVue(this, PSEUDO+SEPARE+texte+SEPARE+numPerso);
 		}
 		
 	}
