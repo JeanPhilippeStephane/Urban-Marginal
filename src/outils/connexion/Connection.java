@@ -33,6 +33,7 @@ public class Connection extends Thread {
 	
 	public void envoi(Object unObjet){
 		try {
+			this.out.reset() ;
 			out.writeObject(unObjet);
 			out.flush();
 		} catch (IOException e) {

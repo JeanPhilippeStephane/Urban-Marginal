@@ -6,6 +6,7 @@ import javax.swing.JPanel;
 import modele.Jeu;
 import modele.JeuClient;
 import modele.JeuServeur;
+import modele.Label;
 import outils.connexion.ClientSocket;
 import outils.connexion.Connection;
 import outils.connexion.ServeurSocket;
@@ -34,14 +35,18 @@ public class Controle implements Global {
 			evenementChoixJoueur(info);
 			
 		}
+		if(uneFrame instanceof Arene ){
+			evenementArene(info);
+		}
 	}
 	
+
 	private void evenementEntreeJeu(Object info) {
 		if( (String)info=="serveur"){
 			new ServeurSocket(this,PORT);
 			leJeu= new JeuServeur(this);
 			frmEntreeJeu.dispose();
-			frmArene= new Arene();
+			frmArene= new Arene("serveur",this);
 			((JeuServeur)leJeu).constructionMurs();
 			frmArene.setVisible(true);
 		}
@@ -49,7 +54,7 @@ public class Controle implements Global {
 			if((new ClientSocket( (String)info,PORT,this)).isConnexionOK()){
 				leJeu=new JeuClient(this);
 				leJeu.setConnection(connection);
-				frmArene= new Arene();
+				frmArene= new Arene("client",this);
 				frmChoixJoueur=new ChoixJoueur(this);
 				frmChoixJoueur.setVisible(true);
 				frmEntreeJeu.dispose();
@@ -86,6 +91,12 @@ public class Controle implements Global {
 		if(ordre=="envoi panel murs"){
 			frmArene.ajoutPanelMurs((JPanel)info);
 		}
+		if(ordre=="ajout joueur"){
+			frmArene.ajoutModifJoueur(((Label)info).getNumLabel(),((Label)info).getJLabel());
+		}
+		if(ordre=="remplace chat"){
+			frmArene.remplaceChat((String)info);
+		}
 	}
 
 	private void evenementJeuServeur(String ordre, Object info) {
@@ -98,8 +109,16 @@ public class Controle implements Global {
 		if(ordre=="ajout joueur"){
 			frmArene.ajoutJoueur((JLabel)info);
 		}
+		if(ordre=="ajout phrase"){
+			frmArene.ajoutChat((String)info);
+			((JeuServeur)leJeu).envoi(frmArene.getTxtChat());
+		}
+		
 	}
-
+	private void evenementArene(Object info) {
+		// TODO Auto-generated method stub
+		((JeuClient)leJeu).envoi(info);
+	}
 	public static void main(String[] args) {
 		new Controle();
 		
