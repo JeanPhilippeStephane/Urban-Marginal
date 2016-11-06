@@ -39,28 +39,32 @@ public class Attaque extends Thread implements Global {
 			jeuServeur.envoi(laBoule.getLabel());
 			victime=toucheJoueur(lesJoueurs);
 		}while(laBoule.getPosX()>0 && laBoule.getPosX()<L_ARENE && toucheMur()==false && victime==null);
-		if(victime!=null  ){
-			if(victime.estMort()==false){
-				victime.perteVie();
-				attaquant.gainVie();
-				jeuServeur.envoi(HURT);
-				for(int i=1;i<=NBETATSBLESSE;i++){
+		if(victime!=null ){
+			if(victime.getEquipe()!=attaquant.getEquipe()){
+				if(victime.estMort()==false){
+					victime.perteVie();
+					attaquant.gainVie();
+					jeuServeur.envoi(HURT);
+					for(int i=1;i<=NBETATSBLESSE;i++){
 					victime.affiche(BLESSE, i);
 					pause(80,(80/1000000));
 				
 				}
-				if(victime.estMort()){
-					jeuServeur.envoi(DEATH);
-					for(int i=1;i<=NBETATSBLESSE;i++){
-						victime.affiche(MORT, i);
-						pause(80,(80/1000000));
+					if(victime.estMort()){
+						jeuServeur.envoi(DEATH);
+						for(int i=1;i<=NBETATSBLESSE;i++){
+							victime.affiche(MORT, i);
+							pause(80,(80/1000000));
+						}
 					}
+					else{
+						victime.affiche(MARCHE,1);
+					}
+					attaquant.affiche(MARCHE,1);
 				}
-				else{
-					victime.affiche(MARCHE,1);
-				}
-				attaquant.affiche(MARCHE,1);
-			
+			}
+			else{
+				toucheMur();
 			}
 		}
 		laBoule.getLabel().getJLabel().setVisible(false);

@@ -11,16 +11,28 @@ import outils.connexion.Connection;
 public class JeuServeur extends Jeu implements Global {
 	private ArrayList<Mur> lesMurs =new ArrayList<Mur>();
 	private Hashtable<Connection,Joueur> lesJoueurs=new Hashtable<Connection,Joueur>();
+	private Hashtable<Connection,Joueur> lesBleus=new Hashtable<Connection,Joueur>();
+	private Hashtable<Connection,Joueur> lesRouges=new Hashtable<Connection,Joueur>();
 	private ArrayList<Joueur> lesJoueursDansLordre=new ArrayList<Joueur>();
+	
+	private  int nbJoueur=0;
 	public JeuServeur(Controle controle){
 		super.controle=controle;
 		Label.setNbLabel(0);
 	}
 
-	@Override
+	
 	public void setConnection(Connection connection) {
 		// TODO Auto-generated method stub
+		System.out.println("nbJoueur:"+nbJoueur);	
 		lesJoueurs.put(connection,new Joueur(this));
+		if((nbJoueur%2)==0){
+			lesRouges.put(connection,new Joueur(this));
+		}
+		else{
+			lesBleus.put(connection,new Joueur(this));
+		}
+		nbJoueur+=1;
 		
 	}
 
@@ -58,11 +70,11 @@ public class JeuServeur extends Jeu implements Global {
 		}
 	}
 
-	@Override
+	
 	public void deconnection(Connection connection) {
 		lesJoueurs.get(connection).departJoueur();
 		lesJoueurs.remove(connection);
-		
+		nbJoueur-=1;
 	}
 	
 	public void constructionMurs(){
@@ -86,7 +98,23 @@ public class JeuServeur extends Jeu implements Global {
 			super.envoi(uneConnection, info);
 		}
 	}
-	
-	
+	public int getNbJoueur(){
+		return nbJoueur;
+	}
+	public String dansLequipe(Joueur joueur){
+			Set<Connection>lesCles=lesRouges.keySet();
+			Set<Connection> lesCles2=lesBleus.keySet();
+			for(Connection uneCle:lesCles){
+				if(lesJoueurs.get(uneCle)==joueur){
+					return "rouge";
+				}
+			}
+			for(Connection uneCle2:lesCles2){
+				if(lesJoueurs.get(uneCle2)==joueur){
+					return "bleu";
+				}
+		}
+			return null;
+	}
 
 }

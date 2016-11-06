@@ -20,7 +20,7 @@ public class Controle implements Global {
 	private Arene frmArene;
 	private ChoixJoueur frmChoixJoueur;
 	private Connection connection;
-	
+	private int nbJoueur;
 	public Controle()  {
 		this.frmEntreeJeu = new EntreeJeu(this);
 		frmEntreeJeu.setVisible(true);
@@ -71,6 +71,7 @@ public class Controle implements Global {
 		this.connection=connection;
 		if(leJeu instanceof JeuServeur ){
 			leJeu.setConnection(connection);
+			nbJoueur=((JeuServeur)leJeu).getNbJoueur();
 		}
 	}
 	
@@ -131,6 +132,9 @@ public class Controle implements Global {
 		
 
 	}
-
+	public int getNbJoueur(){
+		System.out.println("NbJoueur2: "+nbJoueur);
+		return nbJoueur;
+	}
 	
 }

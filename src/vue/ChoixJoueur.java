@@ -146,11 +146,23 @@ public class ChoixJoueur  extends JFrame implements Global  {
 		textPseudo.setColumns(10);
 		textPseudo.requestFocus();
 		
-		lblPersonnage = new JLabel("New label");
+		lblPersonnage = new JLabel("");
 		lblPersonnage.setHorizontalAlignment(SwingConstants.CENTER);
 		lblPersonnage.setBounds(141, 113, 123, 123);
 		lblPersonnage.setIcon(new ImageIcon(FONDARENE));
 		frame.add(lblPersonnage);
+		
+		JLabel lblEquipe = new JLabel();
+		
+		if((controle.getNbJoueur())%2==0){
+			
+			lblEquipe.setText("Equipe Rouge");
+		}
+		else{
+			lblEquipe.setText("Equipe bleue");
+		}
+		lblEquipe.setBounds(161, 113, 78, 25);
+		frame.add(lblEquipe);
 		
 		JLabel lblFond = new JLabel("");
 		lblFond.setBounds(0, 0, 400, 275);
@@ -165,5 +177,4 @@ public class ChoixJoueur  extends JFrame implements Global  {
 		welcome=new Son(SONWELCOME);
 		welcome.play();
 	}
-
 }

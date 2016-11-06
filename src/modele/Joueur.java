@@ -21,6 +21,7 @@ public class Joueur extends Objet implements Global {
 	private static final int  MAXVIE = 10; // vie de départ pour tous les joueurs
 	private static final int GAIN = 1 ; // gain de points lors d'une attaque 
 	private static final int PERTE = 2;  // perte de points lors d'une attaque
+	private String equipe;
 	public Joueur(JeuServeur jeuServeur){
 		this.jeuServeur=jeuServeur;
 		vie=MAXVIE;
@@ -45,6 +46,7 @@ public class Joueur extends Objet implements Global {
 		jeuServeur.nouveauLabelJeu(message);
 		boule=new Boule(jeuServeur);
 		jeuServeur.envoi(boule.getLabel());
+		equipe=jeuServeur.dansLequipe(this);
 	}
 	public Label getMessage(){
 		return message;
@@ -187,7 +189,12 @@ public class Joueur extends Objet implements Global {
 				jeuServeur.envoi(label);
 				jeuServeur.envoi(message);
 				jeuServeur.envoi(boule.getLabel());
+				
 			}
+			
+	}
+	public String getEquipe(){
+		return equipe;
 	}
 	
 }
