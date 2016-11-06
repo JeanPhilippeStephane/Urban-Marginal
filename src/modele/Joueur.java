@@ -14,11 +14,16 @@ public class Joueur extends Objet implements Global {
 	private int numPerso;
 	private Label message;
 	private JeuServeur jeuServeur;
-	private int vie=10; // vie restante du joueur 
+	private int vie; // vie restante du joueur 
 	private int orientation=1;// tourné vers la gauche (0) ou vers la droite (1) 
-	private int etape=1;// numéro d'étape dans l'animation 
+	private int etape=1;// numéro d'étape dans l'animation
+	private Boule boule;
+	private static final int  MAXVIE = 10; // vie de départ pour tous les joueurs
+	private static final int GAIN = 1 ; // gain de points lors d'une attaque 
+	private static final int PERTE = 2;  // perte de points lors d'une attaque
 	public Joueur(JeuServeur jeuServeur){
 		this.jeuServeur=jeuServeur;
+		vie=MAXVIE;
 	}
 	public void initPerso(String pseudo,int numPerso,Hashtable<Connection,Joueur>lesJoueurs, ArrayList<Mur> lesMurs){
 		this.pseudo=pseudo;
@@ -38,7 +43,8 @@ public class Joueur extends Objet implements Global {
 		jeuServeur.envoi(message);
 		jeuServeur.nouveauLabelJeu(label);
 		jeuServeur.nouveauLabelJeu(message);
-		
+		boule=new Boule(jeuServeur);
+		jeuServeur.envoi(boule.getLabel());
 	}
 	public Label getMessage(){
 		return message;
@@ -86,6 +92,8 @@ public class Joueur extends Objet implements Global {
 		label.getJLabel().setIcon(new ImageIcon(PERSO+numPerso +etat+etape+"d"+orientation+EXTIMAGE));
 		message.getJLabel().setBounds(posX-10,posY+H_PERSO,L_PERSO+10,H_MESSAGE);
 		message.getJLabel().setText(pseudo+":"+vie);
+		jeuServeur.envoi(label);
+		jeuServeur.envoi(message);
 		
 	}
 	/**
@@ -106,42 +114,80 @@ public class Joueur extends Objet implements Global {
 			 position=max;
 		 }
 		 if(action==GAUCHE || action==DROITE){
-			 position=this.posX;
+			 this.posX=position;
 		 }
 		 else{
-			 position=this.posY;
+			 this.posY=position;
 		 }
 		 if(toucheJoueur(lesJoueurs)||toucheMur(lesMurs)){
 			 position=ancpos;
 		 }
-		 etape++;
-		 if(etape>NBETATSMARCHE){
+		 etape+=1;
+		 while(etape>NBETATSMARCHE){
 			 etape=1;
 		 }
+		 
 		 return position;
 		 
 	}
 	public void action(int action,Hashtable<Connection,Joueur> lesJoueurs,ArrayList<Mur> lesMurs){
 		switch(action){
-			case GAUCHE:deplace(action,posX,GAUCHE,-LEPAS,L_ARENE-L_PERSO,lesJoueurs,lesMurs);
-			jeuServeur.envoi(lesJoueurs);
-			jeuServeur.envoi(lesMurs);
+			case GAUCHE:posX=deplace(action,posX,GAUCHE,-LEPAS,L_ARENE-L_PERSO,lesJoueurs,lesMurs);
 			break;
-			case DROITE:deplace(action,posX,DROITE,LEPAS,L_ARENE-L_PERSO,lesJoueurs,lesMurs);
-			jeuServeur.envoi(lesJoueurs);
-			jeuServeur.envoi(lesMurs);
+			case DROITE:posX=deplace(action,posX,DROITE,LEPAS,L_ARENE-L_PERSO,lesJoueurs,lesMurs);
+			
 			break;
-			case HAUT:deplace(action,posY,orientation,-LEPAS,H_ARENE-H_PERSO,lesJoueurs,lesMurs);
-			jeuServeur.envoi(lesJoueurs);
-			jeuServeur.envoi(lesMurs);
+			case HAUT:posY=deplace(action,posY,orientation,-LEPAS,H_ARENE-H_PERSO-H_MESSAGE,lesJoueurs,lesMurs);
+			
 			break;
-			case BAS:deplace(action,posY,orientation,LEPAS,H_ARENE-H_PERSO,lesJoueurs,lesMurs);
-			jeuServeur.envoi(lesJoueurs);
-			jeuServeur.envoi(lesMurs);
+			case BAS:posY=deplace(action,posY,orientation,LEPAS,H_ARENE-H_PERSO-H_MESSAGE,lesJoueurs,lesMurs);
 			break;
-			case TIRE:;break;
+			case TIRE:
+				if(boule.getLabel().getJLabel().isVisible()==false){
+				jeuServeur.envoi(FIGHT);
+				boule.tireBoule(this,lesMurs,lesJoueurs);
+				}
+				;break;
 			
 		}
 		affiche(MARCHE,etape);
 	}
+	/**
+	 * @return the boule
+	 */
+	public Boule getBoule() {
+		return boule;
+	}
+	/**
+	 * @return the orientation
+	 */
+	public int getOrientation() {
+		return orientation;
+	}
+	public void gainVie(){
+		vie+=GAIN;
+	}
+	public void perteVie(){
+		vie-=PERTE;
+		if(vie<=0){
+			vie=0;
+		}
+	}
+	public boolean estMort(){
+		if(vie==0){
+			return true;
+		}
+		return false;
+	}
+	public void departJoueur(){
+			if(label!=null){
+				label.getJLabel().setVisible(false);
+				message.getJLabel().setVisible(false);
+				boule.getLabel().getJLabel().setVisible(false);
+				jeuServeur.envoi(label);
+				jeuServeur.envoi(message);
+				jeuServeur.envoi(boule.getLabel());
+			}
+	}
+	
 }

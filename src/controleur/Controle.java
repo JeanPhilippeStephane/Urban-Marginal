@@ -92,10 +92,14 @@ public class Controle implements Global {
 			frmArene.ajoutPanelMurs((JPanel)info);
 		}
 		if(ordre=="ajout joueur"){
+			System.out.println(((Label)info).getNumLabel());
 			frmArene.ajoutModifJoueur(((Label)info).getNumLabel(),((Label)info).getJLabel());
 		}
 		if(ordre=="remplace chat"){
 			frmArene.remplaceChat((String)info);
+		}
+		if(ordre=="son"){
+			frmArene.joueSon((int)info);
 		}
 	}
 
@@ -118,6 +122,9 @@ public class Controle implements Global {
 	private void evenementArene(Object info) {
 		// TODO Auto-generated method stub
 		((JeuClient)leJeu).envoi(info);
+	}
+	public void deconnection(Connection connection){
+		leJeu.deconnection(connection);
 	}
 	public static void main(String[] args) {
 		new Controle();

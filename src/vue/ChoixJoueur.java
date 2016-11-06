@@ -17,6 +17,7 @@ import javax.swing.border.EmptyBorder;
 
 import controleur.Controle;
 import controleur.Global;
+import outils.son.Son;
 
 public class ChoixJoueur  extends JFrame implements Global  {
 
@@ -25,16 +26,22 @@ public class ChoixJoueur  extends JFrame implements Global  {
 	private  int numPerso;
 	private JLabel lblPersonnage;
 	private Controle controle;
+	private Son suivant;
+	private Son precedent;
+	private Son go;
+	private Son welcome;
 	private void lblPrecedent_clic(){
 		if (numPerso>1 ){
 			numPerso=numPerso-1;
 			lblPersonnage.setIcon(new ImageIcon(PERSO+numPerso +MARCHE+"1d0"+EXTIMAGE));
+			precedent.play();
 		}
 	}
 	private void lblSuivant_clic(){
 		if(numPerso%NBPERSOS!=0){
 			numPerso=numPerso+1;
 			lblPersonnage.setIcon(new ImageIcon(PERSO+numPerso +MARCHE+"1d0"+EXTIMAGE));
+			suivant.play();
 		}
 		
 	}
@@ -47,7 +54,7 @@ public class ChoixJoueur  extends JFrame implements Global  {
 		else{
 			controle.evenementVue(this, PSEUDO+SEPARE+texte+SEPARE+numPerso);
 		}
-		
+		go.play();
 	}
 	
 	private void souris_normale(){
@@ -152,6 +159,11 @@ public class ChoixJoueur  extends JFrame implements Global  {
 		
 		numPerso=1;
 		affichePerso();
+		suivant=new Son(SONSUIVANT);
+		precedent=new Son(SONPRECEDENT);
+		go=new Son(SONGO);
+		welcome=new Son(SONWELCOME);
+		welcome.play();
 	}
 
 }

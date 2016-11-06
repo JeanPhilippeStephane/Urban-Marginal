@@ -31,7 +31,7 @@ public class Connection extends Thread {
 	((controleur.Controle)this.leRecepteur).setConnection(this) ; 
 	}
 	
-	public void envoi(Object unObjet){
+	public synchronized void  envoi(Object unObjet){
 		try {
 			this.out.reset() ;
 			out.writeObject(unObjet);
@@ -57,6 +57,7 @@ public class Connection extends Thread {
 				// TODO Auto-generated catch block
 				JOptionPane.showMessageDialog(null,"l'ordinateur est déconnecté");
 				inOk=false;
+				((controleur.Controle)leRecepteur).deconnection(this);
 				try {
 					in.close();
 				} catch (IOException e1) {

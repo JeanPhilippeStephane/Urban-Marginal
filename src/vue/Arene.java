@@ -13,6 +13,7 @@ import javax.swing.border.EmptyBorder;
 
 import controleur.Controle;
 import controleur.Global;
+import outils.son.Son;
 
 import javax.swing.JLabel;
 import java.awt.event.KeyEvent;
@@ -33,7 +34,7 @@ public class Arene extends JFrame implements Global {
 	private boolean client;
 	private Controle controle;
 	private JTextArea txtChat;
-	
+	private Son[] lesSons = new Son[SON.length] ; 
 	/**
 	 * Launch the application.
 	 */
@@ -105,7 +106,12 @@ public class Arene extends JFrame implements Global {
 		
 			txtChat = new JTextArea();
 			jspChat.setViewportView(txtChat);
-		
+		if(client){
+			(new Son(SONAMBIANCE)).playContinue() ;
+			for (int i=0;i<lesSons.length;i++){
+				lesSons[i]=new Son(CHEMINSONS+SON[i]);
+			}
+		}
 		
 	}
 	public void ajoutMur(JLabel objet){
@@ -182,6 +188,10 @@ public class Arene extends JFrame implements Global {
 			controle.evenementVue(this,ACTION+SEPARE+valeur);
 		}
 		
+	}
+	
+	public void joueSon(int numSon){
+		lesSons[numSon].play();
 	}
 	
 }

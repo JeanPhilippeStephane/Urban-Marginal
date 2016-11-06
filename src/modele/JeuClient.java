@@ -1,5 +1,6 @@
 package modele;
 
+import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 import controleur.Controle;
@@ -29,11 +30,14 @@ public class JeuClient extends Jeu {
 		if(info instanceof String){
 			controle.evenementModele(this,"remplace chat", info);
 		}
+		if(info instanceof Integer){
+			controle.evenementModele(this,"son",info);
+		}
 	}
 
 	@Override
 	public void deconnection(Connection connection) {
-		// TODO Auto-generated method stub
+		this.connection=null;
 		
 	}
 	public void envoi(Object info){
