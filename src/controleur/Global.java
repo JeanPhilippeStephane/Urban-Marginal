@@ -63,4 +63,7 @@ public interface Global {
 	 public static final int ROUGE=0;
 	 public static final int BLEU=1;
 	 
+	 public static final String CHEMINCAMPS=CHEMIN+"camps"+SEPARATOR;
+	 public static int H_CAMPS=5;
+	 
 }

@@ -21,7 +21,8 @@ public class Joueur extends Objet implements Global {
 	private static final int  MAXVIE = 10; // vie de départ pour tous les joueurs
 	private static final int GAIN = 1 ; // gain de points lors d'une attaque 
 	private static final int PERTE = 2;  // perte de points lors d'une attaque
-	private String equipe;
+	private String equipe;// équipe du joueur
+	private Label camps;
 	public Joueur(JeuServeur jeuServeur){
 		this.jeuServeur=jeuServeur;
 		vie=MAXVIE;
@@ -38,15 +39,25 @@ public class Joueur extends Objet implements Global {
 		message.setNbLabel(Label.getNbLabel()+1);
 		message.getJLabel().setHorizontalAlignment( SwingConstants.CENTER);
 		message.getJLabel().setFont(new Font("Dialog",Font.PLAIN,8)) ;
+		
+		camps=new Label(Label.getNbLabel(),new JLabel());
+		camps.setNbLabel(Label.getNbLabel()+1);
+		camps.getJLabel().setHorizontalAlignment( SwingConstants.CENTER);
+		
 		premierePosition(lesJoueurs,lesMurs);
 		affiche(MARCHE,etape);
 		jeuServeur.envoi(label);
 		jeuServeur.envoi(message);
+		
 		jeuServeur.nouveauLabelJeu(label);
 		jeuServeur.nouveauLabelJeu(message);
+		jeuServeur.nouveauLabelJeu(camps);
 		boule=new Boule(jeuServeur);
 		jeuServeur.envoi(boule.getLabel());
-		equipe=jeuServeur.dansLequipe(this);
+		
+		equipe=jeuServeur.dansLequipe(this);// renvoi l'équipe au joueur
+		jeuServeur.envoi(camps);
+		System.out.println(equipe);
 	}
 	public Label getMessage(){
 		return message;
@@ -94,9 +105,16 @@ public class Joueur extends Objet implements Global {
 		label.getJLabel().setIcon(new ImageIcon(PERSO+numPerso +etat+etape+"d"+orientation+EXTIMAGE));
 		message.getJLabel().setBounds(posX-10,posY+H_PERSO,L_PERSO+10,H_MESSAGE);
 		message.getJLabel().setText(pseudo+":"+vie);
+		if (equipe=="rouge"){
+			camps.getJLabel().setIcon(new ImageIcon(CHEMINCAMPS+"rouge.gif"+SEPARATOR));
+		}
+		else{
+			camps.getJLabel().setIcon(new ImageIcon(CHEMINCAMPS+"bleue.gif"+SEPARATOR));
+		}
+		camps.getJLabel().setBounds(posX-10,posY+H_PERSO,H_CAMPS,H_CAMPS);
 		jeuServeur.envoi(label);
 		jeuServeur.envoi(message);
-		
+		jeuServeur.envoi(camps);
 	}
 	/**
 	 * @return the pseudo
@@ -195,6 +213,9 @@ public class Joueur extends Objet implements Global {
 	}
 	public String getEquipe(){
 		return equipe;
+	}
+	public Label getCamps(){
+		return camps;
 	}
 	
 }

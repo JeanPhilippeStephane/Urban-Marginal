@@ -11,11 +11,11 @@ import outils.connexion.Connection;
 public class JeuServeur extends Jeu implements Global {
 	private ArrayList<Mur> lesMurs =new ArrayList<Mur>();
 	private Hashtable<Connection,Joueur> lesJoueurs=new Hashtable<Connection,Joueur>();
-	private Hashtable<Connection,Joueur> lesBleus=new Hashtable<Connection,Joueur>();
-	private Hashtable<Connection,Joueur> lesRouges=new Hashtable<Connection,Joueur>();
+	private Hashtable<Connection,Joueur> lesBleus=new Hashtable<Connection,Joueur>();//equipe bleue
+	private Hashtable<Connection,Joueur> lesRouges=new Hashtable<Connection,Joueur>();//equipe rouge
 	private ArrayList<Joueur> lesJoueursDansLordre=new ArrayList<Joueur>();
 	
-	private  int nbJoueur=0;
+	private  int nbJoueur=0;// nombre de joueurs
 	public JeuServeur(Controle controle){
 		super.controle=controle;
 		Label.setNbLabel(0);
@@ -32,6 +32,7 @@ public class JeuServeur extends Jeu implements Global {
 		else{
 			lesBleus.put(connection,new Joueur(this));
 		}
+		envoieNbJoueur();
 		nbJoueur+=1;
 		
 	}
@@ -49,6 +50,7 @@ public class JeuServeur extends Jeu implements Global {
 			for(Joueur unJoueur:lesJoueursDansLordre){
 				super.envoi(connection,unJoueur.getLabel());
 				super.envoi(connection, unJoueur.getMessage());
+				super.envoi(connection, unJoueur.getCamps().getJLabel());
 				super.envoi(connection, unJoueur.getBoule().getLabel());
 			}
 			lesJoueurs.get(connection).initPerso(infos[1],Integer.parseInt(infos[2]),lesJoueurs,lesMurs);
@@ -98,9 +100,13 @@ public class JeuServeur extends Jeu implements Global {
 			super.envoi(uneConnection, info);
 		}
 	}
-	public int getNbJoueur(){
-		return nbJoueur;
+	public void envoieNbJoueur(){
+		super.controle.setNbJoueur(nbJoueur);
 	}
+	
+	/*
+	 * methode permettant d'affecter au joueur son equipe
+	 */
 	public String dansLequipe(Joueur joueur){
 			Set<Connection>lesCles=lesRouges.keySet();
 			Set<Connection> lesCles2=lesBleus.keySet();
@@ -111,7 +117,7 @@ public class JeuServeur extends Jeu implements Global {
 			}
 			for(Connection uneCle2:lesCles2){
 				if(lesJoueurs.get(uneCle2)==joueur){
-					return "bleu";
+					return "bleue";
 				}
 		}
 			return null;

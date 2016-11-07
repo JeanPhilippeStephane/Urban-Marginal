@@ -71,7 +71,7 @@ public class Controle implements Global {
 		this.connection=connection;
 		if(leJeu instanceof JeuServeur ){
 			leJeu.setConnection(connection);
-			nbJoueur=((JeuServeur)leJeu).getNbJoueur();
+			
 		}
 	}
 	
@@ -132,9 +132,14 @@ public class Controle implements Global {
 		
 
 	}
+	public void setNbJoueur(int nbJoueur){
+		
+		this.nbJoueur+=nbJoueur;
+	}
 	public int getNbJoueur(){
 		System.out.println("NbJoueur2: "+nbJoueur);
 		return nbJoueur;
 	}
+	
 	
 }

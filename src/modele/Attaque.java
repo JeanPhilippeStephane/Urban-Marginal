@@ -40,7 +40,7 @@ public class Attaque extends Thread implements Global {
 			victime=toucheJoueur(lesJoueurs);
 		}while(laBoule.getPosX()>0 && laBoule.getPosX()<L_ARENE && toucheMur()==false && victime==null);
 		if(victime!=null ){
-			if(victime.getEquipe()!=attaquant.getEquipe()){
+			if(victime.getEquipe()!=attaquant.getEquipe()){//vérifie si le joueur visé est dans la même équipe
 				if(victime.estMort()==false){
 					victime.perteVie();
 					attaquant.gainVie();

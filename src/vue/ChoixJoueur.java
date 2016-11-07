@@ -30,6 +30,7 @@ public class ChoixJoueur  extends JFrame implements Global  {
 	private Son precedent;
 	private Son go;
 	private Son welcome;
+	private int nbJoueur;
 	private void lblPrecedent_clic(){
 		if (numPerso>1 ){
 			numPerso=numPerso-1;
@@ -78,6 +79,7 @@ public class ChoixJoueur  extends JFrame implements Global  {
 	 */
 	public ChoixJoueur(Controle controle) {
 		this.controle=controle;
+		nbJoueur=controle.getNbJoueur();
 		setTitle("Choix");
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setBounds(100, 100, 416, 313);
@@ -154,7 +156,7 @@ public class ChoixJoueur  extends JFrame implements Global  {
 		
 		JLabel lblEquipe = new JLabel();
 		
-		if((controle.getNbJoueur())%2==0){
+		if((nbJoueur)%2==0){
 			
 			lblEquipe.setText("Equipe Rouge");
 		}
